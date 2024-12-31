@@ -1,0 +1,106 @@
+.header{
+    // border-bottom: 1px solid #635BFF;
+    // background-color: #635BFF80;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    .container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .logo{
+            img{
+                width: 144px;
+            }
+        }
+        .reg-btn{
+            background-color: #635BFF;
+            color: white;
+            margin-left: 10px;
+        }
+        button{
+            // color: white;
+            @media (max-width: 768px) {
+                span{
+                    display: none;
+                }
+            }
+        }
+    }
+}
+.hero{
+    background-image: url(../../assets/images/backgrounds/hero.png );
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.about{
+    background-image: url(../../assets/images/backgrounds/hero-1.png );
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    .item{
+        text-align: center;
+        
+        .cs-border{
+            border: 1px dashed #635BFF;
+            border-radius: 25px;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            background-color: transparent;
+            z-index: 1;
+            div{
+                margin: auto;
+            }
+            i{
+                color: #635BFF;
+                font-size: 200%;
+            }
+            &::before{
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 5%;
+                z-index: -1;
+                background-color: #635BFF;
+                transition: .3s;
+            }
+            &:hover{
+                &::before{
+                    height: 100%;
+                    transition: .3s;
+                }
+                i{
+                    color: white;
+                }
+                color: white;
+            }
+        }
+    }
+}
+
+.title{
+    text-align: center;
+    .base{
+        color: #635BFF;
+        font-family: "Playwrite US Modern", serif;
+    }
+    h1{
+        font-family: "Manrope", serif;
+        font-weight: 800;
+        margin: 0;
+        // color: #fff;
+        span{
+            color: #635BFF;
+        }
+    }
+}

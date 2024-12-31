@@ -1,0 +1,94 @@
+<div class="header">
+    <div class="container py-3">
+        <div class="logo">
+            <img src="../../assets/images/logos/logo.png" alt="">
+        </div>
+        <div class="btns">
+            <button mat-stroked-button [routerLink]="['/authentication/login']">
+                <i class="fas fa-right-to-bracket"></i> <span>Login</span>
+            </button>
+            <button mat-flat-button [routerLink]="['/authentication/register']" class="reg-btn">
+                <i class="fas fa-user-plus"></i> <span>Register</span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="hero">
+    <div class="title">
+        <span class="base h4">
+            Welcome to E-Greetify
+        </span>
+        <h1 class="display-3">
+            Share Your Joy, <span>Your Way!</span>
+        </h1>
+    </div>
+</div>
+
+<div class="about py-5">
+    <div class="title">
+        <span class="base h5">Express Creatively</span>
+        <h1 class="display-4">
+            Why Choose <span>E-Greetify?</span>
+        </h1>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row gx-5">
+            <div class="col-md-3 col-6 item">
+                <div class="p-3 cs-border">
+                    <div>
+                        <i class="fas fa-infinity"></i>
+                        <h4>
+                            Endless Options
+                        </h4>
+                        <p>
+                            Access a growing library of templates for all your celebrations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 item">
+                <div class="p-3 cs-border">
+                    <div>
+                        <i class="fas fa-pen-to-square"></i>
+                        <h4>
+                            Simple Customization
+                        </h4>
+                        <p>
+                            Intuitive tools make editing fun and effortless.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 item">
+                <div class="p-3 cs-border">
+                    <div>
+                        <i class="fas fa-paper-plane"></i>
+                        <h4>
+                            Instant Delivery
+                        </h4>
+                        <p>
+                            Send your greetings in just a few clicks.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 item">
+                <div class="p-3 cs-border">
+                    <div>
+                        <i class="fas fa-leaf"></i>
+                        <h4>
+                            Eco-Friendly
+                        </h4>
+                        <p>
+                            Share digitally and save paper!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-categories></app-categories>
