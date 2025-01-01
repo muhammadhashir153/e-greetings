@@ -5,18 +5,12 @@ import {
   Validators,
   FormsModule,
   ReactiveFormsModule,
-<<<<<<< HEAD
-} from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
-import { MaterialModule } from '../../../material.module';
-=======
   FormBuilder
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
 import { MaterialModule } from '../../../material.module';
 import { UserService } from 'src/app/APISERVICES/UserService';
->>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
 
 @Component({
   selector: 'app-side-register',
@@ -25,23 +19,6 @@ import { UserService } from 'src/app/APISERVICES/UserService';
   templateUrl: './side-register.component.html',
 })
 export class AppSideRegisterComponent {
-<<<<<<< HEAD
-  constructor(private router: Router) {}
-
-  form = new FormGroup({
-    uname: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    email: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required]),
-  });
-
-  get f() {
-    return this.form.controls;
-  }
-
-  submit() {
-    // console.log(this.form.value);
-    this.router.navigate(['/']);
-=======
   registerForm: FormGroup;
   submitted = false;
 
@@ -76,6 +53,5 @@ export class AppSideRegisterComponent {
         alert('Registration failed. Please try again.');
       }
     );
->>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
   }
 }

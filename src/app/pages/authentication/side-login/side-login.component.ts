@@ -9,10 +9,7 @@ import {
 import { Router, RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material.module';
 import { MatButtonModule } from '@angular/material/button';
-<<<<<<< HEAD
-=======
 import { UserService } from 'src/app/APISERVICES/UserService';
->>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
 
 @Component({
   selector: 'app-side-login',
@@ -27,14 +24,6 @@ import { UserService } from 'src/app/APISERVICES/UserService';
   templateUrl: './side-login.component.html',
 })
 export class AppSideLoginComponent {
-<<<<<<< HEAD
-  constructor(private router: Router) {}
-
-  form = new FormGroup({
-    uname: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    password: new FormControl('', [Validators.required]),
-  });
-=======
   form: FormGroup;
 
   constructor(private router: Router, private userService: UserService) {
@@ -46,17 +35,12 @@ export class AppSideLoginComponent {
       password: new FormControl('', [Validators.required]),
     });
   }
->>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
 
   get f() {
     return this.form.controls;
   }
 
   submit() {
-<<<<<<< HEAD
-    // console.log(this.form.value);
-    this.router.navigate(['/']);
-=======
     if (this.form.invalid) {
       return;
     }
@@ -92,6 +76,5 @@ export class AppSideLoginComponent {
         alert('Unable to process login. Please try again later.');
       }
     );
->>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
   }
 }

@@ -23,14 +23,9 @@
     "@ng-matero/extensions": "^17.0.0",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
-<<<<<<< HEAD
-    "angular-tabler-icons": "^2.7.0",
-    "apexcharts": "^3.52.0",
-    "bootstrap": "^5.3.3",
-=======
     "angular-tabler-icons": "^2.47.0",
     "apexcharts": "^3.52.0",
->>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
+    "bootstrap": "^5.3.3",
     "fabric": "^5.5.1",
     "font-awesome": "^4.7.0",
     "iconify": "^1.4.0",
