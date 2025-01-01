@@ -17,7 +17,11 @@
             </a>
           </div>
 
+<<<<<<< HEAD
           <div class="row m-t-24 custom-row">
+=======
+          <!-- <div class="row m-t-24 custom-row">
+>>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
             <div class="col-6">
               <button mat-stroked-button class="w-100">
                 <div class="d-flex align-items-center">
@@ -49,6 +53,7 @@
             </div>
           </div>
 
+<<<<<<< HEAD
           <div class="or-border m-t-30">or sign up with</div>
 
           <form class="m-t-30">
@@ -81,6 +86,29 @@
               Sign Up
             </a>
             <!-- input -->
+=======
+          <div class="or-border m-t-30">or sign up with</div> -->
+
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="m-t-30">
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Name</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput formControlName="name" />
+            </mat-form-field>
+          
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Email Address</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput type="email" formControlName="email" />
+            </mat-form-field>
+          
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Password</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput type="password" formControlName="password" />
+            </mat-form-field>
+          
+            <button mat-flat-button color="primary" class="w-100" [disabled]="registerForm.invalid">
+              Sign Up
+            </button>
+>>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
           </form>
           <span class="d-block f-w-500 text-center m-t-24"
             >Already have an Account?

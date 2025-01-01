@@ -41,6 +41,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+<<<<<<< HEAD
+=======
+import { HttpClientModule } from '@angular/common/http';
+>>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
 
 @NgModule({
   declarations: [],
@@ -80,6 +84,10 @@ import { MatTableModule } from '@angular/material/table';
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
+<<<<<<< HEAD
+=======
+    HttpClientModule
+>>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
   ],
 })
 export class MaterialModule {}

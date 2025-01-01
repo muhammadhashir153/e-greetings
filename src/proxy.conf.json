@@ -1,0 +1,7 @@
+{
+    "/api": {
+      "target": "http://greetify.somee.com",
+      "secure": false,
+      "changeOrigin": true
+    }
+}

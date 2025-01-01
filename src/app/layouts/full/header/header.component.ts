@@ -6,7 +6,11 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { MaterialModule } from 'src/app/material.module';
+<<<<<<< HEAD
 import { RouterModule } from '@angular/router';
+=======
+import { Router, RouterModule } from '@angular/router';
+>>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
 import { CommonModule } from '@angular/common';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,5 +29,18 @@ export class HeaderComponent {
   @Output() toggleMobileNav = new EventEmitter<void>();
   @Output() toggleCollapsed = new EventEmitter<void>();
 
+<<<<<<< HEAD
   constructor() {}
+=======
+  constructor(private router: Router) {}
+
+
+  logout() {
+    // Remove the Role from localStorage
+    localStorage.removeItem('Role');
+
+    // Redirect to the login page
+    this.router.navigate(['/authentication/login']);
+  }
+>>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
 }

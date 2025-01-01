@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { fabric } from 'fabric';
+<<<<<<< HEAD
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,11 +14,14 @@ interface Food {
   value: string;
   viewValue: string;
 }
+=======
+>>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
 
 @Component({
   selector: 'app-editor',
   standalone: true,
   imports: [
+<<<<<<< HEAD
     MatFormFieldModule,
     MatSelectModule,
     FormsModule,
@@ -27,13 +31,19 @@ interface Food {
     MatCardModule,
     MatInputModule,
     MatCheckboxModule,
+=======
+    MatButtonModule,
+>>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
   ],
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss']
 })
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
 export class EditorComponent implements OnInit, AfterViewInit {
   private canvas!: fabric.Canvas;
 
@@ -43,15 +53,21 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     // You can initialize non-DOM related setup here if needed
+<<<<<<< HEAD
     
+=======
+>>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
   }
 
   ngAfterViewInit(): void {
     // Initialize the Fabric.js canvas after the view has loaded
+<<<<<<< HEAD
     let canvasBox = document.getElementById("canvas-box");
 
     
 
+=======
+>>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
     this.canvas = new fabric.Canvas('fabricCanvas');
     let canvas = this.canvas;
 
@@ -78,6 +94,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
       width: 400,
     });
 
+<<<<<<< HEAD
     const addButton = document.getElementById("add-text");
 
     (addButton as HTMLElement).onclick = addTextbox;
@@ -101,6 +118,8 @@ export class EditorComponent implements OnInit, AfterViewInit {
       canvas.renderAll();
     }
 
+=======
+>>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
     
   window.addEventListener("localStorageUpdated", () => {
     let image = localStorage.getItem("media");
@@ -109,6 +128,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
         fabric.Image.fromURL(image, (img) => {
             img.scaleToWidth(200);
             img.scaleToHeight(200);
+<<<<<<< HEAD
             img.set({
               hasBorders: true,
               hasControls: true,
@@ -116,11 +136,17 @@ export class EditorComponent implements OnInit, AfterViewInit {
             // Assuming canvas is available in this scope
             this.canvas.add(img);
             canvas.setActiveObject(img);
+=======
+
+            // Assuming canvas is available in this scope
+            this.canvas.add(img);
+>>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
             this.canvas.renderAll();
         });
     }
   });
 
+<<<<<<< HEAD
     const delBtn = document.getElementById("del-item");
 
     canvas.on('selection:created', updateButtonPosition);
@@ -200,6 +226,25 @@ export class EditorComponent implements OnInit, AfterViewInit {
     });
 
     
+=======
+  window.addEventListener("keyup", function(event){
+    if(event.key == "DEL"){
+      const activeObject = canvas.getActiveObject();
+      if (activeObject) {
+          canvas.remove(activeObject);
+      }
+    }
+  });
+
+
+
+    this.canvas.add(greetingText);
+
+    // Optional: Enable additional canvas settings
+    this.canvas.setWidth(800);
+    this.canvas.setHeight(600);
+    this.canvas.renderAll();
+>>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
   }
 
   showPanel(panelId: string): void {
@@ -276,6 +321,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
     });
   }
 
+<<<<<<< HEAD
   country: Food[] = [
     { value: 'times-new-roman', viewValue: 'Times New Roman' },
     { value: 'pizza-1', viewValue: 'India' },
@@ -284,6 +330,10 @@ export class EditorComponent implements OnInit, AfterViewInit {
   ];
 
   selectedFont = this.country[0].value;
+=======
+
+
+>>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
 }
 
 
