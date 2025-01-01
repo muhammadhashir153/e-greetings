@@ -110,3 +110,48 @@
         }
     }
 }
+.how-to-work{
+    .item{
+        position: relative;
+        .badge{
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            color: transparent;
+            -webkit-text-stroke: 1px #635BFF;
+            opacity: .7;
+            margin: 0;
+            padding: 0;
+            font-family: "Playwrite US Modern", serif;
+        }
+        h4{
+            span{
+                color: #635BFF;
+                font-family: "Playwrite US Modern", serif;
+            }
+        }
+    }
+}
+.cta{
+    background-color: #635BFF;
+    h1{
+        span{
+            font-family: "Playwrite US Modern", serif;
+        }
+    }
+    p{
+        font-size: 150%;
+        text-align: center;
+        color: #dfdcdc;
+    }
+    div{
+        width: max-content;
+        margin: auto;
+        button{
+            &:hover{
+                color: #635BFF !important;
+            }
+        }
+    }
+
+}
