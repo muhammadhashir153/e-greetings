@@ -1,0 +1,49 @@
+.title{
+    text-align: center;
+    .base{
+        color: #635BFF;
+        font-family: "Playwrite US Modern", serif;
+    }
+    h1{
+        font-family: "Manrope", serif;
+        font-weight: 800;
+        margin: 0;
+        // color: #fff;
+        span{
+            color: #635BFF;
+        }
+    }
+}
+.cs-card{
+    .card-body{
+        position: relative;
+        overflow: hidden;
+        transition: .3s;
+        img{
+            transition: .3s;
+            height: 300px;
+            object-fit: cover;
+            position: relative;
+        }
+        .card-banner{
+            position: absolute;
+            top: 20px;
+            right: 0;
+            width: fit-content;
+            padding: 10px 24px;
+            border-radius: 25px 0px 0px 25px;
+            box-shadow: 0px 0px 15px #4a43ca;
+            background-color: #635BFF;
+            color: white;
+            font-family: "Playwrite US Modern", serif;
+        }
+        &:hover{
+            img{
+                transform: scale(1.5) rotate(10deg);
+                transition: .3s;
+            }
+            transition: .3s;
+            box-shadow: 1px 1px 10px;
+        }
+    }
+}
