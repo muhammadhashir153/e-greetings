@@ -8,13 +8,12 @@ import { HomeComponent } from './home/home.component';
 export const routes: Routes = [
   {
     path: '',
+    component: HomeComponent, // HomeComponent as the main page
+  },
+  {
+    path: '',
     component: FullComponent,
     children: [
-      {
-        path: '',
-        redirectTo: '/authentication/login',
-        pathMatch: 'full',
-      },
       {
         path: 'dashboard',
         loadChildren: () =>
@@ -53,10 +52,6 @@ export const routes: Routes = [
           canActivate: [AuthGuard],
       },
     ],
-  },
-  {
-    path: 'home',
-    component: HomeComponent,
   },
   {
     path: '**',
