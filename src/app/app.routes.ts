@@ -4,11 +4,16 @@ import { FullComponent } from './layouts/full/full.component';
 import { AuthGuard } from './guards/auth.service';
 import { DashboardGuard } from './guards/dashboard.service';
 import { HomeComponent } from './home/home.component';
+import { TempelatesComponent } from './home/tempelates/tempelates.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: HomeComponent, // HomeComponent as the main page
+    component: HomeComponent
+  },
+  {
+    path: 'home/tempelates/:id',
+    component: TempelatesComponent
   },
   {
     path: '',
