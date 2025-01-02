@@ -1,16 +1,39 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { fabric } from 'fabric';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+
+interface Food {
+  value: string;
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-editor',
   standalone: true,
   imports: [
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatRadioModule,
     MatButtonModule,
+    MatCardModule,
+    MatInputModule,
+    MatCheckboxModule,
   ],
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss']
 })
+
+
+
 export class EditorComponent implements OnInit, AfterViewInit {
   private canvas!: fabric.Canvas;
 
@@ -20,10 +43,15 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     // You can initialize non-DOM related setup here if needed
+    
   }
 
   ngAfterViewInit(): void {
     // Initialize the Fabric.js canvas after the view has loaded
+    let canvasBox = document.getElementById("canvas-box");
+
+    
+
     this.canvas = new fabric.Canvas('fabricCanvas');
     let canvas = this.canvas;
 
@@ -50,6 +78,29 @@ export class EditorComponent implements OnInit, AfterViewInit {
       width: 400,
     });
 
+    const addButton = document.getElementById("add-text");
+
+    (addButton as HTMLElement).onclick = addTextbox;
+
+    function addTextbox() {
+      const textbox = new fabric.Textbox('Enter text here', {
+          left: 50, // X-coordinate on canvas
+          top: 50,  // Y-coordinate on canvas
+          width: 200,
+          fontSize: 20,
+          fill: '#000', // Text color
+          borderColor: '#333', // Border color when selected
+          cornerColor: '#333', // Corner color when resizing
+          cornerStyle: 'circle', // Resizing handle style
+          editable: true, // Allow text editing
+      });
+  
+      // Add the textbox to the canvas
+      canvas.add(textbox);
+      canvas.setActiveObject(textbox);
+      canvas.renderAll();
+    }
+
     
   window.addEventListener("localStorageUpdated", () => {
     let image = localStorage.getItem("media");
@@ -58,31 +109,97 @@ export class EditorComponent implements OnInit, AfterViewInit {
         fabric.Image.fromURL(image, (img) => {
             img.scaleToWidth(200);
             img.scaleToHeight(200);
-
+            img.set({
+              hasBorders: true,
+              hasControls: true,
+            });
             // Assuming canvas is available in this scope
             this.canvas.add(img);
+            canvas.setActiveObject(img);
             this.canvas.renderAll();
         });
     }
   });
 
-  window.addEventListener("keyup", function(event){
-    if(event.key == "DEL"){
+    const delBtn = document.getElementById("del-item");
+
+    canvas.on('selection:created', updateButtonPosition);
+    canvas.on('selection:cleared', updateButtonPosition);
+    canvas.on('selection:updated', updateButtonPosition);
+    canvas.on('object:moving', updateButtonPosition);
+
+    function updateButtonPosition() {
+      const activeObject = canvas.getActiveObject();
+      if (activeObject) {
+          const objectCoords = activeObject.aCoords;
+          if(objectCoords){
+            (delBtn as HTMLElement).style.left = `${objectCoords.tr.x}px`;
+            (delBtn as HTMLElement).style.top = `${objectCoords.tr.y - 30}px`;
+            (delBtn as HTMLElement).style.display = 'block';
+          }
+      }else{
+        (delBtn as HTMLElement).style.display = 'none';
+      }
+    }
+
+    (delBtn as HTMLElement).addEventListener('click', () => {
       const activeObject = canvas.getActiveObject();
       if (activeObject) {
           canvas.remove(activeObject);
+          canvas.discardActiveObject();
+          canvas.renderAll();
+          localStorage.removeItem("media");
+          this.closePanel();
+          (delBtn as HTMLElement).style.display = 'none';
       }
-    }
-  });
-
-
-
+    });
     this.canvas.add(greetingText);
 
     // Optional: Enable additional canvas settings
-    this.canvas.setWidth(800);
+    // this.canvas.setWidth((canvasBox as HTMLElement).offsetWidth);
+    window.onload = () => {
+      (fabricCanvas as HTMLElement).style.width = getComputedStyle((canvasBox as HTMLElement)).width;
+      this.canvas.setWidth(parseFloat(getComputedStyle((canvasBox as HTMLElement)).width));
+    }
     this.canvas.setHeight(600);
     this.canvas.renderAll();
+    let fabricCanvas = document.querySelector(".canvas-container");
+    
+    
+  }
+
+  saveState() :void{
+    const canvasState = this.canvas.toJSON();
+
+    const requestBody = {
+      tempId: 1,
+      userId: 1,
+      info: JSON.stringify(canvasState),
+    };
+
+    const apiUrl = '/api/CustomizeTemplates';
+
+    fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Canvas saved successfully:', data);
+    })
+    .catch(error => {
+      console.error('Error saving canvas:', error);
+    });
+
+    
   }
 
   showPanel(panelId: string): void {
@@ -159,8 +276,14 @@ export class EditorComponent implements OnInit, AfterViewInit {
     });
   }
 
+  country: Food[] = [
+    { value: 'times-new-roman', viewValue: 'Times New Roman' },
+    { value: 'pizza-1', viewValue: 'India' },
+    { value: 'tacos-2', viewValue: 'France' },
+    { value: 'tacos-3', viewValue: 'UK' },
+  ];
 
-
+  selectedFont = this.country[0].value;
 }
 
 

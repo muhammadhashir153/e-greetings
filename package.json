@@ -25,6 +25,7 @@
     "@ngx-translate/http-loader": "^7.0.0",
     "angular-tabler-icons": "^2.47.0",
     "apexcharts": "^3.52.0",
+    "bootstrap": "^5.3.3",
     "fabric": "^5.5.1",
     "font-awesome": "^4.7.0",
     "iconify": "^1.4.0",

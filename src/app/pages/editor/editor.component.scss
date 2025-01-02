@@ -1,7 +1,37 @@
-#fabricCanvas {
-    border: 2px solid #ccc;
-    display: block;
-    margin: 0 auto;
+#canvas-box{
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    #fabricCanvas {
+        border: 2px solid #ccc;
+        display: block;
+        margin: 0 auto;
+        position: relative;
+        box-sizing: border-box;
+    }
+    #del-item{
+        position: absolute;
+        top: 20px;
+        right: 0;
+        width: 50px;
+        aspect-ratio: 1/1;
+        border-radius: 15px;
+        background-color: red;
+        cursor: pointer;
+        border: none;
+        color:white;
+        transition: .3s;
+        display: none;
+        &:hover{
+            box-shadow: 1px 1px 5px red;
+            transition: .3s;
+        }
+    }
+}
+#action-btns{
+    width: max-content;
+    margin-left: auto;
+    margin-bottom: 20px;
 }
 
 .controls {
