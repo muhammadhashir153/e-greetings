@@ -133,7 +133,10 @@
     }
 }
 .cta{
-    background-color: #635BFF;
+    // background-color: #635BFF;
+    background-image: linear-gradient(45deg,#635BFF90, #635BFF), url(../../assets/images/backgrounds/cta.webp);
+    background-position: right;
+    background-size: contain;
     h1{
         span{
             font-family: "Playwrite US Modern", serif;
