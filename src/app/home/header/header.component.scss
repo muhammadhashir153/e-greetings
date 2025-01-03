@@ -1,0 +1,30 @@
+.header{
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    .container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .logo{
+            img{
+                width: 144px;
+            }
+        }
+        .reg-btn{
+            background-color: #635BFF;
+            color: white;
+            margin-left: 10px;
+        }
+        button{
+            // color: white;
+            @media (max-width: 768px) {
+                span{
+                    display: none;
+                }
+            }
+        }
+    }
+}
