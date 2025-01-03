@@ -3,11 +3,15 @@ import { TempService } from 'src/app/APISERVICES/TempService';
 import { NgFor } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { CategoryService } from 'src/app/APISERVICES/CategoryService';
+import { HeaderComponent } from '../header/header.component';
+import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-tempelates',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor, HeaderComponent, RouterLink, CommonModule, MatButton],
   templateUrl: './tempelates.component.html',
   styleUrl: './tempelates.component.scss'
 })
@@ -31,11 +35,9 @@ export class TempelatesComponent {
 
     this.catService.getCategories().subscribe(res => {
       this.categories = res;
-      this.categories.filter(name => name.id == this.id);
+      this.categories = this.categories.filter(name => name.id == this.id);
       this.categoryName = this.categories[0].name;
       this.catDesc = this.categories[0].description;
-      console.log(this.categoryName);
-      console.log(this.catDesc);
     })
   }
 }

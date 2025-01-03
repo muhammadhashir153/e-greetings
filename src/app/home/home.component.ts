@@ -6,6 +6,7 @@ import { MatToolbarRow } from '@angular/material/toolbar';
 import { RouterLink } from '@angular/router';
 import { CategoriesComponent } from './categories/categories.component';
 import { CommonModule } from '@angular/common';
+import { HeaderComponent } from './header/header.component';
 
 @Component({
   selector: 'app-home',
@@ -17,18 +18,12 @@ import { CommonModule } from '@angular/common';
     MatDivider,
     RouterLink,
     CommonModule,
-    CategoriesComponent
+    CategoriesComponent,
+    HeaderComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  isLoggedIn: boolean = false;
-  username: string | null = null;
-
-  ngOnInit() {
-    // Check if the username is stored in localStorage
-    this.username = localStorage.getItem('Name');
-    this.isLoggedIn = !!this.username; 
-  }
+  
 }

@@ -1,10 +1,37 @@
-<div class="row">
-    <div class="col-4" *ngFor="let item of templates">
-        <div class="card">
-            <div class="card-body">
-                <img src="{{ item.imageUrl }}" class="w-100" alt="">
-                <h4>{{ item.description }}</h4>
+<app-header></app-header>
+<main>
+    <div class="hero">
+        <div class="container">
+            <div class="title">
+                <span class="base h4">
+                    {{catDesc}}
+                </span>
+                <h1 class="display-3">
+                    {{categoryName}}
+                </h1>
+                <div class="cs-breadcrumb mt-3">
+                    <p>
+                        <a [routerLink]="['/']">Home</a> / <span>{{ categoryName}}</span>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <div class="container mb-4">
+        <div class="row g-5">
+            <div class="col-4" *ngFor="let item of templates">
+                <div class="cs-card">
+                    <div class="card-body">
+                        <img src="{{ item.imageUrl }}" class="w-100" alt="">
+                        <div class="overlay">
+                            <h4>{{ item.description }}</h4>
+                            <button mat-flat-button color="primary">
+                                <i class="fas fa-pen-to-square"></i> Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

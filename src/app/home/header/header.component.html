@@ -1,18 +1,28 @@
 <div class="header">
     <div class="container py-3">
         <div class="logo">
-            <img src="../../../assets/images/logos/logo.png" alt="">
+            <img src="../../assets/images/logos/logo.png" alt="">
         </div>
         <div class="btns">
-            <button mat-stroked-button [routerLink]="['/authentication/login']">
+            <button *ngIf="!isLoggedIn" mat-stroked-button [routerLink]="['/authentication/login']">
                 <i class="fas fa-right-to-bracket"></i> <span>Login</span>
             </button>
-            <button mat-flat-button [routerLink]="['/authentication/register']" class="reg-btn">
+            <button *ngIf="!isLoggedIn" mat-flat-button [routerLink]="['/authentication/register']" class="reg-btn">
                 <i class="fas fa-user-plus"></i> <span>Register</span>
             </button>
-            <button mat-flat-button  class="reg-btn">
-                <i class="fas fa-user-plus"></i> <span>Welcome, Username</span>
-            </button>
+            <div class="dropdown" *ngIf="isLoggedIn">
+                <button mat-flat-button [matMenuTriggerFor]="menu" class="reg-btn" type="button">
+                    Welcome, <span style="text-transform: capitalize;">{{ username }} </span> <i class="fas fa-caret-down"></i>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item>
+                        <i class="fas fa-user text-primary"></i> My Account
+                    </button>
+                    <button mat-menu-item>
+                        <i class="fas fa-right-from-bracket text-primary"></i> Logout
+                    </button>
+                </mat-menu>
+            </div>
         </div>
     </div>
 </div>
