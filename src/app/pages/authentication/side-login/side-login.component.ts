@@ -64,9 +64,19 @@ export class AppSideLoginComponent {
 
           // Store role or token in local storage
           localStorage.setItem('Role', user.role);
+          localStorage.setItem('Name', user.name);
 
           // Navigate to dashboard
-          this.router.navigate(['/dashboard']);
+          if (user.role === 'admin') {
+            console.log("This Is A Admin");
+            this.router.navigate(['/dashboard']);
+          } else if (user.role === 'user') {
+            console.log("This Is A User");
+            this.router.navigate(['/']);
+          } else {
+            console.error('Unexpected role:', user.role);
+            alert('Invalid role. Please contact support.');
+          }
         } else {
           alert('Invalid username or password. Please try again.');
         }

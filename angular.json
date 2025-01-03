@@ -27,18 +27,12 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.scss",
-<<<<<<< HEAD
               "src/assets/scss/style.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ]
-=======
-              "src/assets/scss/style.scss"
-            ],
-            "scripts": []
->>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
           },
           "configurations": {
             "production": {
@@ -79,13 +73,8 @@
           },
           "defaultConfiguration": "development",
           "options": {
-<<<<<<< HEAD
             "proxyConfig": "proxy.conf.json"
           }
-=======
-              "proxyConfig": "D:/Backup/src/proxy.conf.json"
-            }
->>>>>>> 6733196678ea2099453b7ebbc7c4fe65cc34c1af
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -105,6 +94,9 @@
           }
         }
       }
+    },
+    "cli": {
+      "analytics": "46a3d380-1f5c-4402-b068-008321cce144"
     }
   },
   "cli": {
