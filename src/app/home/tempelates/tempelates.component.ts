@@ -8,11 +8,12 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 import { CategoriesComponent } from '../categories/categories.component';
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
   selector: 'app-tempelates',
   standalone: true,
-  imports: [NgFor, HeaderComponent, RouterLink, CommonModule, MatButton, CategoriesComponent],
+  imports: [NgFor, HeaderComponent, RouterLink, CommonModule, MatButton, CategoriesComponent, FooterComponent],
   templateUrl: './tempelates.component.html',
   styleUrl: './tempelates.component.scss'
 })
