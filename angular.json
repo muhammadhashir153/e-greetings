@@ -73,7 +73,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "proxyConfig": "proxy.conf.json"
+            "proxyConfig": "D:/Backup/src/proxy.conf.json"
           }
         },
         "extract-i18n": {
@@ -94,10 +94,9 @@
           }
         }
       }
-   
     }
   },
   "cli": {
-    "analytics": false
+    "analytics": "46a3d380-1f5c-4402-b068-008321cce144"
   }
 }
