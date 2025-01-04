@@ -13,4 +13,7 @@ export class TempService{
     getService(): Observable<any> {
         return this.http.get(this.apiUrl);
     }
+    getServiceById(id:string | null): Observable<any> {
+        return this.http.get(`${this.apiUrl}/${id}`);
+    }
 }

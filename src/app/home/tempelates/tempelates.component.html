@@ -25,7 +25,7 @@
                         <img src="{{ item.imageUrl }}" class="w-100" alt="">
                         <div class="overlay">
                             <h4>{{ item.description }}</h4>
-                            <button mat-flat-button color="primary">
+                            <button [routerLink]="['../../../editor', item.id]" mat-flat-button color="primary">
                                 <i class="fas fa-pen-to-square"></i> Edit
                             </button>
                         </div>

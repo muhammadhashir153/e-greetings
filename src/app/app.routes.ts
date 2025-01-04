@@ -26,7 +26,7 @@ export const routes: Routes = [
         canActivate: [DashboardGuard],
       },
       {
-        path: 'editor',
+        path: 'editor/:id',
         loadChildren: () =>
           import('./pages/editor/editor.routes').then((m) => m.EditorRoutes),
       },
