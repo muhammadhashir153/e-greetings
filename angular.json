@@ -73,7 +73,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "proxyConfig": "D:/Backup/src/proxy.conf.json"
+            "proxyConfig": "src/proxy.conf.json"
           }
         },
         "extract-i18n": {

@@ -32,6 +32,17 @@
     width: max-content;
     margin-left: auto;
     margin-bottom: 20px;
+    i{
+        animation: spin 1s linear infinite;
+    }
+}
+@keyframes spin{
+    0% {
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
 }
 
 .controls {

@@ -11,6 +11,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { ActivatedRoute } from '@angular/router';
 import { TempService } from 'src/app/APISERVICES/TempService';
 import { Subject } from 'rxjs';
+import { CustomTempService } from 'src/app/APISERVICES/CustomeTempService';
 
 interface Food {
   value: string;
@@ -51,7 +52,8 @@ export class EditorComponent implements OnInit, AfterViewInit {
   temp :temp;
   desc$ = new Subject<string>();
   img$ = new Subject<string>();
-  constructor(private tempService :TempService, private activeRoute : ActivatedRoute) {}
+  
+  constructor(private tempService :TempService, private activeRoute : ActivatedRoute, private CustomTempService : CustomTempService) {}
 
   ngOnInit(): void {
     this.id = this.activeRoute.snapshot.paramMap.get('id');
@@ -69,6 +71,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
     let img: string = '';
     let desc : string = '';
     let canvasBox = document.getElementById("canvas-box");
+    
 
     this.canvas = new fabric.Canvas('fabricCanvas');
     let canvas = this.canvas;
@@ -144,30 +147,33 @@ export class EditorComponent implements OnInit, AfterViewInit {
     }
 
     
-  window.addEventListener("localStorageUpdated", () => {
-    let image = localStorage.getItem("media");
-    
-    if (image) {
-        fabric.Image.fromURL(image, (img) => {
-            img.scaleToWidth(200);
-            img.scaleToHeight(200);
-            img.set({
-              hasBorders: true,
-              hasControls: true,
-            });
-            // Assuming canvas is available in this scope
-            this.canvas.add(img);
-            canvas.setActiveObject(img);
-            this.canvas.renderAll();
-        });
-    }
-  });
+    window.addEventListener("localStorageUpdated", () => {
+      let image = localStorage.getItem("media");
+      
+      if (image) {
+          fabric.Image.fromURL(image, (img) => {
+              img.scaleToWidth(200);
+              img.scaleToHeight(200);
+              img.set({
+                hasBorders: true,
+                hasControls: true,
+              });
+              // Assuming canvas is available in this scope
+              this.canvas.add(img);
+              canvas.setActiveObject(img);
+              this.canvas.renderAll();
+          });
+      }
+    });
 
     const delBtn = document.getElementById("del-item");
 
     canvas.on('selection:created', updateButtonPosition);
+    canvas.on('selection:created', () => this.showPanel(null));
     canvas.on('selection:cleared', updateButtonPosition);
+    canvas.on('selection:cleared', () => this.closePanel());
     canvas.on('selection:updated', updateButtonPosition);
+    canvas.on('selection:updated', () => this.showPanel(null));
     canvas.on('object:moving', updateButtonPosition);
 
     function updateButtonPosition() {
@@ -195,74 +201,98 @@ export class EditorComponent implements OnInit, AfterViewInit {
           (delBtn as HTMLElement).style.display = 'none';
       }
     });
-    
-    // window.location.reload();
-    // Optional: Enable additional canvas settings
-    // this.canvas.setWidth((canvasBox as HTMLElement).offsetWidth);
+
+
     window.onload = () => {
-      (fabricCanvas as HTMLElement).style.width = getComputedStyle((canvasBox as HTMLElement)).width;
-      this.canvas.setWidth(parseFloat(getComputedStyle((canvasBox as HTMLElement)).width));
+      (canvasBox as HTMLElement).style.width = getComputedStyle((canvasBox as HTMLElement)).width;
+        this.canvas.setWidth(parseFloat(getComputedStyle((canvasBox as HTMLElement)).width));
     }
+
     this.canvas.setHeight(600);
     this.canvas.renderAll();
     let fabricCanvas = document.querySelector(".canvas-container");
-    
-    
   }
 
   saveState() :void{
+    let saveBtn = document.getElementById("save-loader");
     const canvasState = this.canvas.toJSON();
+    setTimeout(function(){
+      (saveBtn as HTMLElement).style.display = "inline-block";
+    }, 300)
 
     const requestBody = {
-      tempId: 1,
-      userId: 1,
+      tempId: this.id,
+      userId: localStorage.getItem('UserId'),
       info: JSON.stringify(canvasState),
     };
 
-    const apiUrl = '/api/CustomizeTemplates';
-
-    fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
+    this.CustomTempService.postTemp(requestBody).subscribe(res => {
+      
+      if(res.status >= 200 || res.status <= 204){
+        alert('canvas saved');
+        (saveBtn as HTMLElement).style.display = "none";
+      }else{
+        alert('canvas not saved');
       }
-      return response.json();
     })
-    .then(data => {
-      console.log('Canvas saved successfully:', data);
-    })
-    .catch(error => {
-      console.error('Error saving canvas:', error);
-    });
-
-    
   }
 
-  showPanel(panelId: string): void {
-    const main = document.getElementById("main-panel");
+  showPanel(panelId: string | null): void {
+    const mainPanel = document.getElementById("main-panel");
     const panels = document.querySelectorAll(".panel");
-
-    if (main && panels) {
-      // Hide the main panel
-      main.style.display = "none";
-
-      // Loop through panels and display the one matching `panelId`
-      panels.forEach((item) => {
-        if (item.classList.contains(panelId)) {
-          (item as HTMLElement).style.display = "block";
-        } else {
-          (item as HTMLElement).style.display = "none";
+    const activeObject = this.canvas.getActiveObject();
+  
+    // Hide all panels initially
+    if (mainPanel) {
+      mainPanel.style.display = "none";
+    }
+    panels.forEach((panel) => {
+      (panel as HTMLElement).style.display = "none";
+    });
+  
+    // Show the panel based on the active object type
+    if (activeObject && !panelId) {
+      let activeClass = "";
+  
+      // Determine the class based on the object type
+      switch (activeObject.type) {
+        case "textbox":
+          activeClass = "text";
+          break;
+        case "image":
+          activeClass = "media";
+          break;
+        case "rect":
+        case "circle":
+        case "triangle":
+          activeClass = "shape";
+          break;
+        default:
+          console.log("No matching panel for object type:", activeObject.type);
+          return; // Exit if no matching panel is found
+      }
+  
+      // Show the panel corresponding to the active class
+      panels.forEach((panel) => {
+        if (panel.classList.contains(activeClass)) {
+          (panel as HTMLElement).style.display = "block";
         }
       });
+    } else if (!activeObject) {
+      console.log("No active object found");
     }
+  
+    // If a specific `panelId` is provided, override the active object logic
+    if (panelId != null) {
+      panels.forEach((panel) => {
+        if (panel.classList.contains(panelId)) {
+          (panel as HTMLElement).style.display = "block";
+        }
+      });
+    } 
   }
-
+  
+  
   closePanel(): void{
     const main = document.getElementById("main-panel");
     const panels = document.querySelectorAll(".panel");
@@ -288,6 +318,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
     // Clear any existing items in the mediaBox
     if (mediaBox) {
+        localStorage.removeItem('media');
         mediaBox.innerHTML = '';
     }
 

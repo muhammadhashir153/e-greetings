@@ -18,12 +18,12 @@ export const routes: Routes = [
   {
     path: '',
     component: FullComponent,
+    canActivate: [DashboardGuard],
     children: [
       {
         path: 'dashboard',
         loadChildren: () =>
           import('./pages/pages.routes').then((m) => m.PagesRoutes),
-        canActivate: [DashboardGuard],
       },
       {
         path: 'editor/:id',
