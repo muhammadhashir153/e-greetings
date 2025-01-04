@@ -65,6 +65,7 @@ export class AppSideLoginComponent {
           // Store role or token in local storage
           localStorage.setItem('Role', user.role);
           localStorage.setItem('Name', user.name);
+          localStorage.setItem('UserId', user.id);
 
           // Navigate to dashboard
           if (user.role === 'admin') {

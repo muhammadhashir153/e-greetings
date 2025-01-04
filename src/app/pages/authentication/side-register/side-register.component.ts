@@ -45,8 +45,19 @@ export class AppSideRegisterComponent {
       (response) => {
         console.log('User created successfully', response);
         alert('Registration successful!');
-        localStorage.setItem("Role",response.role);
-        this.router.navigate(['/dashboard']);
+        localStorage.setItem('Role', response.role);
+        localStorage.setItem('Name', response.name);
+        localStorage.setItem('UserId', response.id);
+        if (response.role === 'admin') {
+          console.log("This Is A Admin");
+          this.router.navigate(['/dashboard']);
+        } else if (response.role === 'user') {
+          console.log("This Is A User");
+          this.router.navigate(['/']);
+        } else {
+          console.error('Unexpected role:', response.role);
+          alert('Invalid role. Please contact support.');
+        }
       },
       (error) => {
         console.error('Error creating user', error);
