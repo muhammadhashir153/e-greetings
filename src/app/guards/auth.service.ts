@@ -8,7 +8,7 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate(): boolean {
-    const role = localStorage.getItem('Role');
+    const role = sessionStorage.getItem('Role');
     if (role) {
       // If Role exists, redirect to Dashboard
       this.router.navigate(['/dashboard']);

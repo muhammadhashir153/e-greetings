@@ -45,9 +45,9 @@ export class AppSideRegisterComponent {
       (response) => {
         console.log('User created successfully', response);
         alert('Registration successful!');
-        localStorage.setItem('Role', response.role);
-        localStorage.setItem('Name', response.name);
-        localStorage.setItem('UserId', response.id);
+        sessionStorage.setItem('Role', response.role);
+        sessionStorage.setItem('Name', response.name);
+        sessionStorage.setItem('UserId', response.id);
         if (response.role === 'admin') {
           console.log("This Is A Admin");
           this.router.navigate(['/dashboard']);

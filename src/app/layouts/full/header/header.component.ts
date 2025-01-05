@@ -30,7 +30,9 @@ export class HeaderComponent {
 
   logout() {
     // Remove the Role from localStorage
-    localStorage.removeItem('Role');
+    sessionStorage.removeItem('Role');
+    sessionStorage.removeItem('Name');
+    sessionStorage.removeItem('UserId');
 
     // Redirect to the login page
     this.router.navigate(['/authentication/login']);

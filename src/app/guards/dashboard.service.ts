@@ -8,7 +8,7 @@ export class DashboardGuard implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate(): boolean {
-    const role = localStorage.getItem('Role');
+    const role = sessionStorage.getItem('Role');
     if (!role) {
       // If Role does not exist, redirect to login
       this.router.navigate(['/authentication/login']);

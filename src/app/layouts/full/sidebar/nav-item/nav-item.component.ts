@@ -36,7 +36,7 @@ export class AppNavItemComponent implements OnChanges {
     }
 
     // Get user role from localStorage
-    this.userRole = localStorage.getItem('Role'); // Example: 'admin' or 'user'
+    this.userRole = sessionStorage.getItem('Role'); // Example: 'admin' or 'user'
     this.filterNavItems();
   }
 

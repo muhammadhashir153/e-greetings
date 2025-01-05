@@ -23,7 +23,7 @@ export class HeaderComponent {
 
   ngOnInit() {
     // Check if the username is stored in localStorage
-    this.username = localStorage.getItem('Name');
+    this.username = sessionStorage.getItem('Name');
     this.isLoggedIn = !!this.username; 
   }
 }
