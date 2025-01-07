@@ -29,4 +29,18 @@ export class CategoriesComponent {
       console.log(this.categories);
     });
   }
+
+  deleteCat(id: any): void {
+    this.catService.deleteCategory(id).subscribe(
+      (res) => {
+        console.log(res);
+        this.categories = this.categories.filter(category => category.id !== id);
+        alert('Category deleted successfully!');
+      },
+      (error) => {
+        console.error('Error deleting category', error);
+        alert('An error occurred while deleting the category.');
+      }
+    );
+  }
 }
