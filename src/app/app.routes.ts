@@ -30,6 +30,12 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./pages/editor/editor.routes').then((m) => m.EditorRoutes),
       },
+
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('./pages/profile/profile.routes').then((m) => m.ProfileRoutes),
+      },
       {
         path: 'ui-components',
         loadChildren: () =>
