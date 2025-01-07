@@ -75,7 +75,11 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
     this.canvas = new fabric.Canvas('fabricCanvas');
     let canvas = this.canvas;
-
+    
+    setTimeout(() => {
+      (canvasBox as HTMLElement).style.width = getComputedStyle((canvasBox as HTMLElement)).width;
+      this.canvas.setWidth(parseFloat(getComputedStyle((canvasBox as HTMLElement)).width));
+    }, 0);
     this.desc$.subscribe((a) => {
       desc = a;
       const greetingText = new fabric.Textbox(desc, {
@@ -203,10 +207,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
     });
 
 
-    window.onload = () => {
-      (canvasBox as HTMLElement).style.width = getComputedStyle((canvasBox as HTMLElement)).width;
-        this.canvas.setWidth(parseFloat(getComputedStyle((canvasBox as HTMLElement)).width));
-    }
+
 
     this.canvas.setHeight(600);
     this.canvas.renderAll();

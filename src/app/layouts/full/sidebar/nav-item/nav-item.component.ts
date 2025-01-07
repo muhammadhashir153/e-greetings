@@ -36,10 +36,14 @@ export class AppNavItemComponent implements OnChanges {
     }
 
     // Get user role from localStorage
+    
+  }
+  ngOnInit(): void{
     this.userRole = sessionStorage.getItem('Role'); // Example: 'admin' or 'user'
     this.filterNavItems();
+    console.log(this.filteredNavItems.length);
+    console.log('this shit is working 17 times');
   }
-
   ngOnChanges() {
     this.navService.currentUrl.subscribe((url: string) => {});
   }
@@ -69,4 +73,5 @@ export class AppNavItemComponent implements OnChanges {
   onSubItemSelected(item: NavItem) {
     // Handle sub-item selection logic here
   }
+  
 }

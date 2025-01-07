@@ -7,10 +7,10 @@ import { RouterModule } from '@angular/router';
   imports: [RouterModule],
   template: `
     <div class="branding">
-      <a [routerLink]="['/']">
+      <a [routerLink]="['/dashboard']">
         <img
-          src="./assets/images/logos/logo.svg"
-          class="align-middle m-2"
+          src="./assets/images/logos/logo.png"
+          class="align-middle m-2 w-100"
           alt="logo"
         />
       </a>

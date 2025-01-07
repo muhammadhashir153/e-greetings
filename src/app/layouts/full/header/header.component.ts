@@ -27,14 +27,12 @@ export class HeaderComponent {
 
   constructor(private router: Router) {}
 
-
+  userName : string | null = sessionStorage.getItem('Name');
   logout() {
     // Remove the Role from localStorage
-    sessionStorage.removeItem('Role');
-    sessionStorage.removeItem('Name');
-    sessionStorage.removeItem('UserId');
+    sessionStorage.clear();
 
     // Redirect to the login page
-    this.router.navigate(['/authentication/login']);
+    this.router.navigate(['/']);
   }
 }

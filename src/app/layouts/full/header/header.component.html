@@ -40,13 +40,12 @@
     color="inherit"
     [matMenuTriggerFor]="profilemenu"
     aria-label="Notifications"
-    class="d-flex justify-content-center profile-btn-dd"
+    class="d-flex justify-content-center  profile-btn-dd"
   >
-    <img
-      src="/assets/images/profile/user-1.jpg"
-      class="rounded-circle object-cover icon-35 profile-dd"
-      width="35"
-    />
+    
+    <h3>
+      Welcome, {{ userName }} <i class="fas fa-caret-down"></i>
+    </h3>
   </button>
   <mat-menu #profilemenu="matMenu" class="topbar-dd cardWithShadow">
     <button mat-menu-item>

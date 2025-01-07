@@ -18,6 +18,22 @@ export const navItems: NavItem[] = [
     roles: ['admin', 'user'],
   },
   {
+    navCap: 'Create',
+    divider: true
+  },
+  {
+    displayName: 'Categories',
+    iconName: 'solar:folder-path-connect-line-duotone',
+    route: '/admin/categories',
+    roles: ['admin', 'user'],
+  },
+  {
+    displayName: 'Templates',
+    iconName: 'solar:file-smile-line-duotone',
+    route: '/admin/templates',
+    roles: ['admin', 'user'],
+  },
+  {
     navCap: 'Ui Components',
     divider: true
   },

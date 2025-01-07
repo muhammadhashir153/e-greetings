@@ -42,6 +42,11 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./pages/extra/extra.routes').then((m) => m.ExtraRoutes),
       },
+      {
+        path: 'admin',
+        loadChildren: () => 
+          import('./pages/admin/admin.routes').then((m) => m.AdminRoutes),
+      }
     ],
   },
   {

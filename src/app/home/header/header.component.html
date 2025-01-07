@@ -1,7 +1,7 @@
 <div class="header">
     <div class="container py-3">
         <div class="logo">
-            <img src="../../assets/images/logos/logo.png" alt="">
+            <img [routerLink]="['/']" src="../../assets/images/logos/logo.png" alt="">
         </div>
         <div class="btns">
             <button *ngIf="!isLoggedIn" mat-stroked-button [routerLink]="['/authentication/login']">
@@ -18,7 +18,7 @@
                     <button mat-menu-item>
                         <i class="fas fa-user text-primary"></i> My Account
                     </button>
-                    <button mat-menu-item>
+                    <button mat-menu-item (click)="logout()">
                         <i class="fas fa-right-from-bracket text-primary"></i> Logout
                     </button>
                 </mat-menu>

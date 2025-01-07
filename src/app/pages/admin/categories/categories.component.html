@@ -1,0 +1,25 @@
+<mat-card class="cardWithShadow">
+    <mat-card-content>
+      <mat-card-title>Table</mat-card-title>
+  
+      <table class="table table-responsive table-primary">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Templates Assigned</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of categories">
+            <td>{{ item.name }}</td>
+            <td>{{ item.description }}</td>
+            <td>{{ item.templates }}</td>t
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router, RouterModule } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { MatDivider } from '@angular/material/divider';
 import { MatToolbar } from '@angular/material/toolbar';
@@ -20,10 +20,18 @@ import { MatMenuItem } from '@angular/material/menu';
 export class HeaderComponent {
   isLoggedIn: boolean = false;
   username: string | null = null;
+  constructor(private router :Router){}
 
   ngOnInit() {
     // Check if the username is stored in localStorage
     this.username = sessionStorage.getItem('Name');
     this.isLoggedIn = !!this.username; 
+  }
+
+  logout():void{
+    // Clear the username from localStorage
+    sessionStorage.clear();
+    this.isLoggedIn = false;
+    this.router.navigate(['/']);
   }
 }
