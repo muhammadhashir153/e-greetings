@@ -35,4 +35,8 @@ export class HeaderComponent {
     // Redirect to the login page
     this.router.navigate(['/']);
   }
+
+  profile() {
+    this.router.navigate(['/profile']);
+  }
 }

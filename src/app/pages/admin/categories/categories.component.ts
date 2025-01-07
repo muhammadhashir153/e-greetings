@@ -9,17 +9,18 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { NgFor } from '@angular/common';
-
+import { MatDialog } from '@angular/material/dialog';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatTableModule, MaterialModule, MatIconModule, MatMenuModule, MatButtonModule, NgFor],
+  imports: [CommonModule, MatCardModule, MatTableModule, MaterialModule, MatIconModule, MatMenuModule, MatButtonModule, NgFor, RouterLink],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss'
 })
 export class CategoriesComponent {
-  constructor (private catService : CategoryService){}
+  constructor (private catService : CategoryService, private dialog: MatDialog){}
   categories :any[] = [];
   
   ngOnInit(): void{

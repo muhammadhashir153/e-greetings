@@ -1,8 +1,7 @@
 import { Routes } from '@angular/router';
-
-// ui
 import { CategoriesComponent } from './categories/categories.component';
 import { TemplatesComponent } from './templates/templates.component';
+import { AddNewComponent } from './categories/add-new/add-new.component';
 
 export const AdminRoutes: Routes = [
   {
@@ -10,7 +9,8 @@ export const AdminRoutes: Routes = [
     children: [
       {
         path: 'categories',
-        component: CategoriesComponent,
+        loadChildren: () => 
+          import('./categories/categories.routes').then((m)=> m.CategoryRoutes)
       },
       {
         path: 'templates',
