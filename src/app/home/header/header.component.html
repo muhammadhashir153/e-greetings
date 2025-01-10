@@ -15,7 +15,7 @@
                     Welcome, <span style="text-transform: capitalize;">{{ username }} </span> <i class="fas fa-caret-down"></i>
                 </button>
                 <mat-menu #menu="matMenu">
-                    <button mat-menu-item>
+                    <button mat-menu-item [routerLink]="['/dashboard']">
                         <i class="fas fa-user text-primary"></i> My Account
                     </button>
                     <button mat-menu-item (click)="logout()">

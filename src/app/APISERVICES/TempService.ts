@@ -16,4 +16,8 @@ export class TempService{
     getServiceById(id:string | null): Observable<any> {
         return this.http.get(`${this.apiUrl}/${id}`);
     }
+
+    addTemp(data:any): Observable<any>{
+        return this.http.post(this.apiUrl, data);
+    }
 }

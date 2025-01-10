@@ -1,1 +1,30 @@
-<p>templates works!</p>
+<button class="mb-5" id="add-new-btn" mat-flat-button color="primary" [routerLink]="['add-new']"><i class="fas fa-plus"></i> Add new</button>
+<mat-card class="cardWithShadow">
+    <mat-card-content>
+      <mat-card-title>Available Templates</mat-card-title>
+      <div class="row g-4">
+        <div class="col-md-3" *ngFor="let item of templates">
+            <div class="cs-card">
+              <img class="w-100" src="{{ item.imageUrl }}" alt="">
+              <div class="overlay">
+                <button 
+                  mat-fab 
+                  [routerLink]="['update']"
+                  matTooltip="Edit"
+                >
+                  <i class="fas fa-pen-to-square"></i>
+                </button>
+                <button 
+                  mat-fab
+                  matTooltip="Delete"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  
+  

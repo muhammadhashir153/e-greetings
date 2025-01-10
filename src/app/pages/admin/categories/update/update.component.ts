@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,7 +24,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
     MatInputModule,
     MatCheckboxModule,
     MatRadioModule,
-    RouterLink
+    RouterLink,
+    ReactiveFormsModule 
   ],
   templateUrl: './update.component.html',
   styleUrl: './update.component.scss',
@@ -36,22 +37,28 @@ export class UpdateComponent implements OnInit {
   constructor(
     private catService: CategoryService,
     private route: Router,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private fb : FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.id = this.activeRoute.snapshot.paramMap.get('id');
-    this.loadCategoryData();
+    this.form = this.fb.group({
+      name: ['', Validators.required],          // FormControl for 'name'
+      description: ['', Validators.required]    // FormControl for 'description'
+    });
+    this.loadCategoryData(this.id);
   }
 
-  loadCategoryData(): void {
-    this.catService.getCategoryById(this.id).subscribe(
+  loadCategoryData(id:any): void {
+    this.catService.getCategoryById(id).subscribe(
       (data) => {
         // Initialize the form after data is loaded
         this.form = new FormGroup({
           name: new FormControl(data.name, Validators.required),
           description: new FormControl(data.description, Validators.required),
         });
+        console.log(data);
       },
       (error) => {
         console.error('Error fetching category data:', error);
