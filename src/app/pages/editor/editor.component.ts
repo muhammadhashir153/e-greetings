@@ -53,6 +53,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
   temp :temp;
   desc$ = new Subject<string>();
   img$ = new Subject<string>();
+  disabledSave:boolean = true;
   undoStack : any[] = [];
   redoStack : any[] = [];
   
@@ -68,6 +69,67 @@ export class EditorComponent implements OnInit, AfterViewInit {
       this.img$.next(img);
       this.desc$.next(desc);
     })
+  }
+
+  saveStateForStack(): void {
+    if (this.canvas) {
+      const currentState = JSON.stringify(this.canvas.toJSON());
+  
+      // Check if the last state in the stack matches the current state
+      if (this.undoStack.length === 0 || this.undoStack[this.undoStack.length - 1] !== currentState) {
+        this.undoStack.push(currentState);
+        console.log('State saved');
+      } else {
+        console.log('State is identical to the previous one, not saving.');
+      }
+    } else {
+      console.log('Canvas not initialized');
+    }
+  }
+  
+
+  undo(): void {
+    if (this.undoStack.length > 0) {
+      console.log('Undo Stack Before:', this.undoStack.length);
+      const currentState = JSON.stringify(this.canvas.toJSON());
+      this.redoStack.push(currentState);
+      this.disabledSave = false;
+  
+      // Remove the last state from undoStack
+      const previousState = this.undoStack.pop();
+  
+      console.log('Undo Stack After:', this.undoStack.length);
+  
+      // Load the previous state into the canvas
+      this.canvas.loadFromJSON(previousState, () => {
+        this.canvas.renderAll();
+        this.disabledSave = true;
+      });
+    } else if (this.undoStack.length === 1) {
+      alert("No more actions to undo");
+    } else {
+      alert("Undo stack is empty");
+    }
+  }
+
+  redo() :void{
+    if (this.redoStack.length > 0) {
+
+      let currentState = JSON.stringify(this.canvas.toJSON());
+      this.undoStack.push(currentState);
+      this.disabledSave = false;
+      const previousState = this.redoStack.pop();
+      console.clear()
+      console.log(previousState);
+      this.canvas.loadFromJSON(previousState, () => {
+        this.canvas.renderAll();
+        this.disabledSave = true;
+      });
+
+    }else{
+      this.redoStack = [];
+      alert("No more actions to redo");
+    }
   }
 
   ngAfterViewInit(): void {
@@ -176,15 +238,42 @@ export class EditorComponent implements OnInit, AfterViewInit {
     const delBtn = document.getElementById("del-item");
 
     canvas.on('selection:created', updateButtonPosition);
-    canvas.on('selection:created', () => this.showPanel(null));
+    canvas.on('selection:created', () => {
+      this.showPanel(null);
+      if(this.disabledSave){
+        this.saveStateForStack()
+      }
+    });
     canvas.on('selection:cleared', updateButtonPosition);
-    canvas.on('selection:cleared', () => this.closePanel());
+    canvas.on('selection:cleared', () => {
+      this.closePanel();
+      if(this.disabledSave){
+        this.saveStateForStack()
+      }
+    });
     canvas.on('selection:updated', updateButtonPosition);
-    canvas.on('selection:updated', () => this.showPanel(null));
+    canvas.on('selection:updated', () => {
+      this.showPanel(null);
+      if(this.disabledSave){
+        this.saveStateForStack()
+      }
+    });
     canvas.on('object:moving', updateButtonPosition);
-    canvas.on('object:added', () => this.saveStateForStack());
-    canvas.on('object:modified', () => this.saveStateForStack());
-    canvas.on('object:removed', () => this.saveStateForStack());
+    canvas.on('object:added', () => {
+      if(this.disabledSave){
+        this.saveStateForStack()
+      }
+    });
+    canvas.on('object:modified', () => {
+      if(this.disabledSave){
+        this.saveStateForStack()
+      }
+    });
+    canvas.on('object:removed', () => {
+      if(this.disabledSave){
+        this.saveStateForStack()
+      }
+    });
 
     function updateButtonPosition() {
       const activeObject = canvas.getActiveObject();
@@ -220,46 +309,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
     let fabricCanvas = document.querySelector(".canvas-container");
   }
 
-  saveStateForStack(): void{
-    // this.redoStack = [];
-    if(this.canvas){
-      let currentState = JSON.stringify(this.canvas.toJSON());
-      this.undoStack.push(currentState);
-      console.log(this.undoStack);
-      console.log(this.redoStack);
-    }else{
-      console.log("not working");
-    }
-  }
-
-  undo(): void{
-    if (this.undoStack.length > 0) {
-      let currentState = JSON.stringify(this.canvas.toJSON());
-      this.redoStack.push(currentState);
-      const previousState = this.undoStack.pop();
-      this.canvas.loadFromJSON(previousState, () => {
-        this.canvas.renderAll();
-      });
-
-    }else{
-      alert("No more actions to undo");
-    }
-  }
-
-  redo() :void{
-    if (this.redoStack.length > 0) {
-
-      let currentState = JSON.stringify(this.canvas.toJSON());
-      this.undoStack.push(currentState);
-      const previousState = this.redoStack.pop();
-      this.canvas.loadFromJSON(previousState, () => {
-        this.canvas.renderAll();
-      });
-
-    }else{
-      alert("No more actions to redo");
-    }
-  }
 
   saveState() :void{
     let saveBtn = document.getElementById("save-loader");
