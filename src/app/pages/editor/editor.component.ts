@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
+import { MatInput, MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { ActivatedRoute } from '@angular/router';
@@ -36,6 +36,7 @@ interface temp{
     MatCardModule,
     MatInputModule,
     MatCheckboxModule,
+    MatInput
     
   ],
   templateUrl: './editor.component.html',
@@ -52,6 +53,8 @@ export class EditorComponent implements OnInit, AfterViewInit {
   temp :temp;
   desc$ = new Subject<string>();
   img$ = new Subject<string>();
+  undoStack : any[] = [];
+  redoStack : any[] = [];
   
   constructor(private tempService :TempService, private activeRoute : ActivatedRoute, private CustomTempService : CustomTempService) {}
 
@@ -88,7 +91,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
         fontSize: 40,
         fill: '#000',
         fontWeight: 'bold',
-        fontFamily: 'Arial',
         textAlign: 'center',
         editable: true,
         width: 400,
@@ -137,6 +139,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
           top: 50,  // Y-coordinate on canvas
           width: 200,
           fontSize: 20,
+          fontFamily:'Arial',
           fill: '#000', // Text color
           borderColor: '#333', // Border color when selected
           cornerColor: '#333', // Corner color when resizing
@@ -179,6 +182,9 @@ export class EditorComponent implements OnInit, AfterViewInit {
     canvas.on('selection:updated', updateButtonPosition);
     canvas.on('selection:updated', () => this.showPanel(null));
     canvas.on('object:moving', updateButtonPosition);
+    canvas.on('object:added', () => this.saveStateForStack());
+    canvas.on('object:modified', () => this.saveStateForStack());
+    canvas.on('object:removed', () => this.saveStateForStack());
 
     function updateButtonPosition() {
       const activeObject = canvas.getActiveObject();
@@ -212,6 +218,47 @@ export class EditorComponent implements OnInit, AfterViewInit {
     this.canvas.setHeight(600);
     this.canvas.renderAll();
     let fabricCanvas = document.querySelector(".canvas-container");
+  }
+
+  saveStateForStack(): void{
+    // this.redoStack = [];
+    if(this.canvas){
+      let currentState = JSON.stringify(this.canvas.toJSON());
+      this.undoStack.push(currentState);
+      console.log(this.undoStack);
+      console.log(this.redoStack);
+    }else{
+      console.log("not working");
+    }
+  }
+
+  undo(): void{
+    if (this.undoStack.length > 0) {
+      let currentState = JSON.stringify(this.canvas.toJSON());
+      this.redoStack.push(currentState);
+      const previousState = this.undoStack.pop();
+      this.canvas.loadFromJSON(previousState, () => {
+        this.canvas.renderAll();
+      });
+
+    }else{
+      alert("No more actions to undo");
+    }
+  }
+
+  redo() :void{
+    if (this.redoStack.length > 0) {
+
+      let currentState = JSON.stringify(this.canvas.toJSON());
+      this.undoStack.push(currentState);
+      const previousState = this.redoStack.pop();
+      this.canvas.loadFromJSON(previousState, () => {
+        this.canvas.renderAll();
+      });
+
+    }else{
+      alert("No more actions to redo");
+    }
   }
 
   saveState() :void{
@@ -350,14 +397,34 @@ export class EditorComponent implements OnInit, AfterViewInit {
     });
   }
 
-  country: Food[] = [
+
+  updateTextProp(prop: string, event: any):void{
+      if(!this.canvas){
+        console.log("No canvas found");
+        return;
+      }else{
+        let activeObject = this.canvas.getActiveObject();
+        let property :any = prop;
+        const value = event.value ?? event.target?.value;
+
+        if(property == "fontSize"){
+          activeObject?.set(property, parseFloat(value));
+        }else{
+          activeObject?.set(property, value);
+        }
+
+        this.canvas.renderAll();
+      }
+  }
+
+  fonts: Food[] = [
     { value: 'times-new-roman', viewValue: 'Times New Roman' },
-    { value: 'pizza-1', viewValue: 'India' },
-    { value: 'tacos-2', viewValue: 'France' },
-    { value: 'tacos-3', viewValue: 'UK' },
+    { value: 'arial', viewValue: 'Arial' },
+    { value: 'Verdana', viewValue: 'Verdana' },
+    { value: 'Georgia', viewValue: 'Georgia' },
   ];
 
-  selectedFont = this.country[0].value;
+  selectedFont = this.fonts[1].value;
 }
 
 
