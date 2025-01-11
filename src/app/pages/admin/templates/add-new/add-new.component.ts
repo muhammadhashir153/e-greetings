@@ -1,6 +1,6 @@
 import { Component ,OnInit} from '@angular/core';
 import { MatFormField, MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatLabel } from '@angular/material/form-field';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
@@ -45,7 +45,8 @@ export class AddNewComponent implements OnInit {
   constructor(
     private catSer: CategoryService,
     private tempSer: TempService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route:Router
   ) {}
 
   ngOnInit(): void {
@@ -61,33 +62,7 @@ export class AddNewComponent implements OnInit {
     });
   }
 
-  onFileChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
 
-    if (input?.files?.length) {
-      const file = input.files[0];
-
-      // Ensure it's an image file
-      if (!file.type.startsWith('image/')) {
-        alert('Please upload a valid image file.');
-        return;
-      }
-
-      const reader = new FileReader();
-
-      // Convert the file to Base64
-      reader.onload = () => {
-        this.base64Image = reader.result as string;
-
-        // Update the form with the Base64-encoded image
-        this.csForm.patchValue({
-          imageUrl: this.base64Image
-        });
-      };
-
-      reader.readAsDataURL(file); // Start reading the file
-    }
-  }
 
   addTemp(): void {
     if (this.csForm.valid) {
@@ -95,6 +70,8 @@ export class AddNewComponent implements OnInit {
 
       this.tempSer.addTemp(this.csForm.value).subscribe((res) => {
         console.log('API Response:', res);
+        alert("Added");
+        this.route.navigate(["/admin/templates"]);
       });
     } else {
       console.error('Form is invalid:', this.csForm.errors);
@@ -106,4 +83,6 @@ export class AddNewComponent implements OnInit {
       });
     }
   }
+
+
 }

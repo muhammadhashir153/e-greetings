@@ -9,12 +9,13 @@
               <div class="overlay">
                 <button 
                   mat-fab 
-                  [routerLink]="['update']"
+                  [routerLink]="['update', item.id]"
                   matTooltip="Edit"
                 >
                   <i class="fas fa-pen-to-square"></i>
                 </button>
                 <button 
+                  (click)="deleteTemp(item.id)"
                   mat-fab
                   matTooltip="Delete"
                 >

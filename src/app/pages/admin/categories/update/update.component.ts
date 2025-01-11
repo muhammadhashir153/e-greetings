@@ -71,7 +71,7 @@ export class UpdateComponent implements OnInit {
       this.catService.updateCategory(this.id, this.form.value).subscribe(
         (response) => {
           console.log('Category updated successfully:', response);
-          this.route.navigate(['/categories']); // Redirect to categories list
+          this.route.navigate(['/admin/categories']); // Redirect to categories list
         },
         (error) => {
           console.error('Error updating category:', error);

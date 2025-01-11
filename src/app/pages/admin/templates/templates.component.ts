@@ -46,4 +46,21 @@ export class TemplatesComponent {
       this.templates = data;
     });
   }
+
+  deleteTemp(id:any):void{
+    let confirmBox = confirm("Are you sure you want to delete this item??");
+    
+    if(confirmBox){
+      this.tempService.deleteTemp(id).subscribe(
+        (res) => {
+        console.log('API Response:', res);
+        this.templates = this.templates.filter(template => template.id !== id);
+        },
+        (error) => {
+          alert("An error occured, please check 'Customized Templates' before deleting this");
+          console.error('API Error:', error);
+        }
+      );
+    }
+  }
 }

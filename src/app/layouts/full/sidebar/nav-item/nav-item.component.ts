@@ -41,8 +41,6 @@ export class AppNavItemComponent implements OnChanges {
   ngOnInit(): void{
     this.userRole = sessionStorage.getItem('Role'); // Example: 'admin' or 'user'
     this.filterNavItems();
-    console.log(this.filteredNavItems.length);
-    console.log('this shit is working 17 times');
   }
   ngOnChanges() {
     this.navService.currentUrl.subscribe((url: string) => {});

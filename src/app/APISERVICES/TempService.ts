@@ -20,4 +20,12 @@ export class TempService{
     addTemp(data:any): Observable<any>{
         return this.http.post(this.apiUrl, data);
     }
+
+    updateTemp(id:any,data:any): Observable<any>{
+        return this.http.put(`${this.apiUrl}/${id}`, data);
+    }
+
+    deleteTemp(id:any): Observable<any>{
+        return this.http.delete(`${this.apiUrl}/${id}`);
+    }
 }

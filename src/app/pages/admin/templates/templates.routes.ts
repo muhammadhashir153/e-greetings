@@ -13,7 +13,7 @@ export const TemplateRoutes: Routes = [
         component: AddNewComponent
     },
     {
-        path: 'update',
+        path: 'update/:id',
         component: UpdateComponent
     },
     
