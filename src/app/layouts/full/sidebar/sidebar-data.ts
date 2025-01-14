@@ -3,23 +3,24 @@ import { NavItem } from './nav-item/nav-item';
 export const navItems: NavItem[] = [
   {
     navCap: 'Home',
-    roles: ['admin', 'user'],
+    roles: ['admin'],
   },
   {
     displayName: 'Dashboard',
     iconName: 'solar:widget-add-line-duotone',
     route: '/dashboard',
-    roles: ['admin', 'user'],
+    roles: ['admin'],
   },
   {
     displayName: 'Editor',
     iconName: 'solar:pen-new-round-outline',
     route: '/editor',
-    roles: ['admin', 'user'],
+    roles: ['user'],
   },
   {
     navCap: 'Create',
-    divider: true
+    divider: true,
+    roles: ['admin']
   },
   {
     displayName: 'Categories',

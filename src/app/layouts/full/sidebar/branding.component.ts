@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
   imports: [RouterModule],
   template: `
     <div class="branding">
-      <a [routerLink]="['/dashboard']">
+      <a [routerLink]="[path]">
         <img
           src="./assets/images/logos/logo.png"
           class="align-middle m-2 w-100"
@@ -19,4 +19,14 @@ import { RouterModule } from '@angular/router';
 })
 export class BrandingComponent {
   constructor() {}
+  path:string = '';
+
+ ngOnInit():void{
+  let adminStatus = sessionStorage.getItem("Role");
+  if(adminStatus == "admin"){
+    this.path = '/dashboard';
+  }else{
+    this.path = '/';
+  }
+ }
 }

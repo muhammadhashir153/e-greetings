@@ -12,6 +12,9 @@ import { ActivatedRoute } from '@angular/router';
 import { TempService } from 'src/app/APISERVICES/TempService';
 import { Subject } from 'rxjs';
 import { CustomTempService } from 'src/app/APISERVICES/CustomeTempService';
+import { UserMediaService } from 'src/app/APISERVICES/UserMediaService';
+import { CommonModule } from '@angular/common';
+
 
 interface Food {
   value: string;
@@ -36,8 +39,8 @@ interface temp{
     MatCardModule,
     MatInputModule,
     MatCheckboxModule,
-    MatInput
-    
+    MatInput,
+    CommonModule
   ],
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss']
@@ -56,8 +59,14 @@ export class EditorComponent implements OnInit, AfterViewInit {
   disabledSave:boolean = true;
   undoStack : any[] = [];
   redoStack : any[] = [];
+  userMedia :any[] | null = null;
   
-  constructor(private tempService :TempService, private activeRoute : ActivatedRoute, private CustomTempService : CustomTempService) {}
+  constructor(
+    private tempService :TempService, 
+    private activeRoute : ActivatedRoute, 
+    private CustomTempService : CustomTempService,
+    private mediaSer: UserMediaService
+  ) {}
 
   ngOnInit(): void {
     this.id = this.activeRoute.snapshot.paramMap.get('id');
@@ -310,6 +319,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
   }
 
 
+
   saveState() :void{
     let saveBtn = document.getElementById("save-loader");
     const canvasState = this.canvas.toJSON();
@@ -415,7 +425,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
     // Clear any existing items in the mediaBox
     if (mediaBox) {
-        localStorage.removeItem('media');
         mediaBox.innerHTML = '';
     }
 
@@ -426,17 +435,27 @@ export class EditorComponent implements OnInit, AfterViewInit {
         reader.onload = () => {
             const result = reader.result as string;
             // const fileUrl = URL.createObjectURL(result);
+            let data = {
+              userId: sessionStorage.getItem('UserId'),
+              mediaUrl: result
+            }
+            this.mediaSer.createMedia(data).subscribe(
+              (res) => {
+                console.log(res);
+                this.showMedia();
+              }
+            )
 
             // Save the file content (base64) in localStorage
-            localStorage.setItem(`media`, result);
+            // localStorage.setItem(`media`, result);
 
             // Optionally display the file content in mediaBox (e.g., an image or file name)
-            if (mediaBox) {
-                const div = document.createElement('div');
-                div.classList.add("col-lg-6");
-                div.innerHTML = `<img src="${result}" class="w-100" />`;
-                mediaBox.appendChild(div);
-            }
+            // if (mediaBox) {
+            //     const div = document.createElement('div');
+            //     div.classList.add("col-lg-6");
+            //     div.innerHTML = `<img src="${result}" class="w-100" />`;
+            //     mediaBox.appendChild(div);
+            // }
             const event = new CustomEvent('localStorageUpdated');
             window.dispatchEvent(event);
         };
@@ -446,6 +465,26 @@ export class EditorComponent implements OnInit, AfterViewInit {
     });
   }
 
+  showMedia():void{
+    const mediaBox = document.getElementById("media");
+    if (mediaBox) {
+      let uId = sessionStorage.getItem('UserId');
+      this.mediaSer.getAllMedia().subscribe(
+        (res)=>{
+          this.userMedia = res.filter((data) => data.UserId == uId);
+        }
+      );
+
+      console.log(this.userMedia);
+
+      this.userMedia?.forEach((item)=>{
+        const div = document.createElement('div');
+        div.classList.add("col-lg-6");
+        div.innerHTML = `<img src="${item.ImageUrl}" class="w-100" />`;
+        mediaBox.appendChild(div);
+      })
+    }
+  }
 
   updateTextProp(prop: string, event: any):void{
       if(!this.canvas){

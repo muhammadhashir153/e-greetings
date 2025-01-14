@@ -8,7 +8,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-
+import { FeedbacksComponent } from './feedbacks/feedbacks.component';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -21,7 +21,8 @@ import { FooterComponent } from './footer/footer.component';
     CommonModule,
     CategoriesComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    FeedbacksComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
