@@ -35,6 +35,12 @@ export const navItems: NavItem[] = [
     roles: ['admin', 'user'],
   },
   {
+    displayName: 'Feedbacks',
+    iconName: 'solar:chat-dots-broken',
+    route: '/admin/feedbacks',
+    roles: ['admin', 'user'],
+  },
+  {
     navCap: 'Ui Components',
     divider: true
   },

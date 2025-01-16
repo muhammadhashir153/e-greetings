@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkMatdash=self.webpackChunkMatdash||[]).push([[744],{5744:(s,n,t)=>{t.r(n),t.d(n,{AdminRoutes:()=>d});const d=[{path:"",children:[{path:"categories",loadChildren:()=>t.e(143).then(t.bind(t,5143)).then(h=>h.CategoryRoutes)},{path:"templates",loadChildren:()=>t.e(204).then(t.bind(t,9204)).then(h=>h.TemplateRoutes)}]}]}}]);

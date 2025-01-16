@@ -15,6 +15,11 @@ export const AdminRoutes: Routes = [
         loadChildren: () =>
           import('./templates/templates.routes').then((m)=> m.TemplateRoutes)
       },
+      {
+        path: 'feedbacks',
+        loadChildren: () =>
+          import('./feedbacks/feedbacks.routes').then((m)=> m.FeedbackRoutes)
+      },
     ],
   },
 ];

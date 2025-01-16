@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkMatdash=self.webpackChunkMatdash||[]).push([[340],{4340:(n,o,t)=>{t.r(o),t.d(o,{EditorRoutes:()=>d});const d=[{path:"",component:t(6477).x}]}}]);
