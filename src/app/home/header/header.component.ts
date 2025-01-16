@@ -20,12 +20,20 @@ import { MatMenuItem } from '@angular/material/menu';
 export class HeaderComponent {
   isLoggedIn: boolean = false;
   username: string | null = null;
+  userRole: string | null = '/profile'
   constructor(private router :Router){}
 
   ngOnInit() {
     // Check if the username is stored in localStorage
     this.username = sessionStorage.getItem('Name');
     this.isLoggedIn = !!this.username; 
+
+    let userRole = sessionStorage.getItem("UserRole");
+    if(userRole == "admin"){
+      this.userRole = "/dashboard"
+    }else{
+      this.userRole = "/profile"
+    }
   }
 
   logout():void{
@@ -33,5 +41,6 @@ export class HeaderComponent {
     sessionStorage.clear();
     this.isLoggedIn = false;
     this.router.navigate(['/']);
+    window.location.reload();
   }
 }

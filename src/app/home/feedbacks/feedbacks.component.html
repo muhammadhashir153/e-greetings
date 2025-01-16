@@ -8,17 +8,17 @@
 
     <div class="row justify-content-center">
         <div class="col-md-7">
-            <form>
+            <form [formGroup]="feedbackForm" (ngSubmit)="addFeedback()">
                 <mat-label class="f-w-600 m-b-8 d-block">Your Name</mat-label>
                 <mat-form-field appearance="outline" class="w-100" color="primary">
-                    <input matInput type="text" placeholder="Your Name" />
+                    <input matInput formControlName="name" type="text" placeholder="Your Name" />
                 </mat-form-field>
 
                 <mat-label class="f-w-600 m-b-8 d-block">Your Message</mat-label>
                 <mat-form-field appearance="outline" class="w-100" color="primary">
-                    <textarea matInput placeholder="Your Message" ></textarea>
+                    <textarea matInput formControlName="message" placeholder="Your Message" ></textarea>
                 </mat-form-field>
-                
+                <div id="message"></div>
                 <button mat-flat-button color="primary" class="m-r-8">Submit</button>
             </form>
         </div>

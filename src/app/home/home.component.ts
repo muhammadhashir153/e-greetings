@@ -28,5 +28,12 @@ import { FeedbacksComponent } from './feedbacks/feedbacks.component';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  
+  islogedIn: boolean = false;
+
+  ngOnInit():void{
+    let user = sessionStorage.getItem("UserId");
+    if(user != null){
+      this.islogedIn = true;
+    }
+  }
 }
