@@ -415,55 +415,34 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
   uploadFile(event: Event): void {
     const input = event.target as HTMLInputElement;
-
+  
     if (!input.files || input.files.length === 0) {
-        return; // No files selected
+      return;
     }
-
+  
     const files = input.files;
-    const mediaBox = document.getElementById("media");
-
-    // Clear any existing items in the mediaBox
-    if (mediaBox) {
-        mediaBox.innerHTML = '';
-    }
-
-    Array.from(files).forEach((file, index) => {
-        const reader = new FileReader();
-        
-        // Read the file as a Data URL
-        reader.onload = () => {
-            const result = reader.result as string;
-            // const fileUrl = URL.createObjectURL(result);
-            let data = {
-              userId: sessionStorage.getItem('UserId'),
-              mediaUrl: result
-            }
-            this.mediaSer.createMedia(data).subscribe(
-              (res) => {
-                console.log(res);
-                this.showMedia();
-              }
-            )
-
-            // Save the file content (base64) in localStorage
-            // localStorage.setItem(`media`, result);
-
-            // Optionally display the file content in mediaBox (e.g., an image or file name)
-            // if (mediaBox) {
-            //     const div = document.createElement('div');
-            //     div.classList.add("col-lg-6");
-            //     div.innerHTML = `<img src="${result}" class="w-100" />`;
-            //     mediaBox.appendChild(div);
-            // }
-            const event = new CustomEvent('localStorageUpdated');
-            window.dispatchEvent(event);
-        };
-
-        reader.readAsDataURL(file);
-        
+  
+    Array.from(files).forEach((file) => {
+      // Create FormData for the current file
+      const formData = new FormData();
+  
+      // Add the UserId and the file to FormData
+      formData.append('UserId', sessionStorage.getItem('UserId') || '0'); // Replace '0' with default UserId if necessary
+      formData.append('File', file);
+  
+      // Send the FormData to the API
+      this.mediaSer.createMedia(formData).subscribe(
+        (res) => {
+          console.log('Upload successful:', res);
+          this.showMedia(); // Refresh or update the media display
+        },
+        (err) => {
+          console.error('Upload failed:', err);
+        }
+      );
     });
   }
+  
 
   showMedia():void{
     const mediaBox = document.getElementById("media");
