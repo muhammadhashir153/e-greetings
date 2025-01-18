@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class SendTemp{
-    private apiUrl = "http://greetify.somee.com/api/Transactions";
+    private apiUrl = "/api/Transactions";
 
     constructor(private http: HttpClient) {}
 

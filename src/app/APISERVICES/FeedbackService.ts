@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class FeedbackService{
-    private apiUrl = "http://greetify.somee.com/api/Feedbacks";
+    private apiUrl = "/api/Feedbacks";
 
     constructor(private http: HttpClient) {}
 
