@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = '/api/Users';
+  private apiUrl = 'http://greetify.somee.com/api/Users';
 
   constructor(private http: HttpClient) {}
 

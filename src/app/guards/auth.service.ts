@@ -9,7 +9,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): boolean {
     const role = sessionStorage.getItem('Role');
-    if (role) {
+    if (role == 'admin') {
       // If Role exists, redirect to Dashboard
       this.router.navigate(['/dashboard']);
       return false;

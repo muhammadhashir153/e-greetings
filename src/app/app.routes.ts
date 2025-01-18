@@ -5,15 +5,20 @@ import { AuthGuard } from './guards/auth.service';
 import { DashboardGuard } from './guards/dashboard.service';
 import { HomeComponent } from './home/home.component';
 import { TempelatesComponent } from './home/tempelates/tempelates.component';
+import { ViewCardComponent } from './home/view-card/view-card.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
   },
   {
     path: 'home/tempelates/:id',
     component: TempelatesComponent
+  },
+  {
+    path: 'home/view-card/:uid/:tid',
+    component: ViewCardComponent
   },
   {
     path: '',

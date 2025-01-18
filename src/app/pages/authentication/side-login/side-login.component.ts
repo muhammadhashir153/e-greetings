@@ -66,6 +66,7 @@ export class AppSideLoginComponent {
           sessionStorage.setItem('Role', user.role);
           sessionStorage.setItem('Name', user.name);
           sessionStorage.setItem('UserId', user.id);
+          sessionStorage.setItem('Status', user.subscriptionStatus);
 
           // Navigate to dashboard
           if (user.role === 'admin') {

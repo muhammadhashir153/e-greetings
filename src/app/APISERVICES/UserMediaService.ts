@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UserMediaService {
-  private apiUrl = '/api/CardMedias';
+  private apiUrl = 'http://greetify.somee.com/api/CardMedias';
 
   constructor(private http: HttpClient) {}
 

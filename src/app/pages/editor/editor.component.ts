@@ -1,19 +1,20 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { fabric } from 'fabric';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatInput, MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TempService } from 'src/app/APISERVICES/TempService';
 import { Subject } from 'rxjs';
 import { CustomTempService } from 'src/app/APISERVICES/CustomeTempService';
 import { UserMediaService } from 'src/app/APISERVICES/UserMediaService';
 import { CommonModule } from '@angular/common';
+import { SendTemp } from 'src/app/APISERVICES/SendTemp';
 
 
 interface Food {
@@ -60,12 +61,16 @@ export class EditorComponent implements OnInit, AfterViewInit {
   undoStack : any[] = [];
   redoStack : any[] = [];
   userMedia :any[] | null = null;
+  emailForm: FormGroup;
   
   constructor(
     private tempService :TempService, 
     private activeRoute : ActivatedRoute, 
     private CustomTempService : CustomTempService,
-    private mediaSer: UserMediaService
+    private mediaSer: UserMediaService,
+    private fb:FormBuilder,
+    private emailSer: SendTemp,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -74,9 +79,11 @@ export class EditorComponent implements OnInit, AfterViewInit {
       this.temp = res;
       const img = this.temp.imageUrl;
       const desc = this.temp.description;
-
       this.img$.next(img);
       this.desc$.next(desc);
+    });
+    this.emailForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]]
     })
   }
 
@@ -145,7 +152,7 @@ export class EditorComponent implements OnInit, AfterViewInit {
     let img: string = '';
     let desc : string = '';
     let canvasBox = document.getElementById("canvas-box");
-    
+    this.showMedia();
 
     this.canvas = new fabric.Canvas('fabricCanvas');
     let canvas = this.canvas;
@@ -319,30 +326,68 @@ export class EditorComponent implements OnInit, AfterViewInit {
   }
 
 
-
-  saveState() :void{
-    let saveBtn = document.getElementById("save-loader");
+  saveState(): void {
+    const saveBtn = document.getElementById("save-loader");
     const canvasState = this.canvas.toJSON();
-    setTimeout(function(){
-      (saveBtn as HTMLElement).style.display = "inline-block";
-    }, 300)
-
+    const userId = sessionStorage.getItem('UserId');
+    const tempId = this.id;
+  
     const requestBody = {
-      tempId: this.id,
-      userId: localStorage.getItem('UserId'),
+      tempId: tempId,
+      userId: userId,
       info: JSON.stringify(canvasState),
     };
-
-    this.CustomTempService.postTemp(requestBody).subscribe(res => {
-      
-      if(res.status >= 200 || res.status <= 204){
-        alert('canvas saved');
-        (saveBtn as HTMLElement).style.display = "none";
-      }else{
-        alert('canvas not saved');
+  
+    // Show the loader button
+    setTimeout(() => {
+      (saveBtn as HTMLElement).style.display = "inline-block";
+    }, 300);
+  
+    // Check if a matching record exists
+    this.CustomTempService.checkTemp(userId, tempId).subscribe(
+      (existingData: any) => {
+        // Update if matching data is found
+        this.CustomTempService.updateTemp(existingData.id, requestBody).subscribe(
+          (res) => {
+            if (res.status >= 200 && res.status <= 204) {
+              alert('Canvas updated');
+              (saveBtn as HTMLElement).style.display = "none";
+            } else {
+              alert('Canvas update failed');
+            }
+          },
+          (err) => {
+            console.error(err);
+            alert('Error updating canvas');
+          }
+        );
+      },
+      (err) => {
+        if (err.status === 404 || err.error === 'No matching template found') {
+          // No match, add new data
+          this.CustomTempService.postTemp(requestBody).subscribe(
+            (res) => {
+              if (res.status >= 200 && res.status <= 204) {
+                alert('Canvas saved');
+                (saveBtn as HTMLElement).style.display = "none";
+              } else {
+                alert('Canvas save failed');
+              }
+            },
+            (error) => {
+              console.error(error);
+              alert('Error saving canvas');
+            }
+          );
+        } else {
+          console.error(err);
+          alert('Error checking canvas template');
+        }
       }
-    })
+    );
   }
+  
+  
 
   showPanel(panelId: string | null): void {
     const mainPanel = document.getElementById("main-panel");
@@ -444,25 +489,40 @@ export class EditorComponent implements OnInit, AfterViewInit {
   }
   
 
-  showMedia():void{
+  showMedia(): void {
     const mediaBox = document.getElementById("media");
     if (mediaBox) {
       let uId = sessionStorage.getItem('UserId');
       this.mediaSer.getAllMedia().subscribe(
-        (res)=>{
-          this.userMedia = res.filter((data) => data.UserId == uId);
+        (res) => {
+          this.userMedia = res.filter((data) => data.userId == uId);
+  
+          console.log(this.userMedia);
+  
+          this.userMedia?.forEach((item) => {
+            const div = document.createElement('div');
+            div.classList.add("col-lg-6");
+            div.innerHTML = `<img src="http://greetify.somee.com${item.mediaUrl}" class="w-100" style="cursor: pointer;" />`;
+            mediaBox.appendChild(div);
+  
+            // Add click event listener to the image
+            const img = div.querySelector('img');
+            if (img) {
+              img.addEventListener('click', () => this.addToCanvas(`http://greetify.somee.com${item.mediaUrl}`));
+            }
+          });
         }
       );
-
-      console.log(this.userMedia);
-
-      this.userMedia?.forEach((item)=>{
-        const div = document.createElement('div');
-        div.classList.add("col-lg-6");
-        div.innerHTML = `<img src="${item.ImageUrl}" class="w-100" />`;
-        mediaBox.appendChild(div);
-      })
     }
+  }
+
+  addToCanvas(imageUrl: string): void {
+    fabric.Image.fromURL(imageUrl, (img) => {
+      img.scaleToWidth(300); // Scale the image to fit the canvas
+      img.scaleToHeight(300);
+      this.canvas.add(img);
+      this.canvas.renderAll(); // Re-render the canvas
+    });
   }
 
   updateTextProp(prop: string, event: any):void{
@@ -482,6 +542,26 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
         this.canvas.renderAll();
       }
+  }
+
+  sendEmail():void{
+    const data = {
+      senderId: sessionStorage.getItem('UserId'),
+      recipientEmail: this.emailForm.get("email")?.value,
+      templateId: this.id,
+      message: "Here is a gift card for you: " + `http://localhost:4200/home/view-card/${sessionStorage.getItem('UserId')}/${this.id}`,
+      sender: null,
+      template: null
+    }
+
+
+    this.emailSer.addEmail(data).subscribe(
+      (res)=>{
+        this.saveState();
+        alert("Success");
+        this.router.navigate([`/home/view-card/${res.senderId}/${res.templateId}`])
+      }
+    )
   }
 
   fonts: Food[] = [

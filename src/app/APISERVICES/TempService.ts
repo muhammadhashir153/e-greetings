@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class TempService{
-    private apiUrl = "/api/Templates";
+    private apiUrl = "http://greetify.somee.com/api/Templates";
 
     constructor(private http: HttpClient) {}
 

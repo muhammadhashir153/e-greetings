@@ -48,6 +48,7 @@ export class AppSideRegisterComponent {
         sessionStorage.setItem('Role', response.role);
         sessionStorage.setItem('Name', response.name);
         sessionStorage.setItem('UserId', response.id);
+        sessionStorage.setItem('Status', response.subscriptionStatus);
         if (response.role === 'admin') {
           console.log("This Is A Admin");
           this.router.navigate(['/dashboard']);

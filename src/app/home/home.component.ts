@@ -16,7 +16,7 @@ import { FeedbacksComponent } from './feedbacks/feedbacks.component';
     MatToolbar,
     MatToolbarRow,
     MatButton,
-    MatDivider,w
+    MatDivider,
     RouterLink,
     CommonModule,
     CategoriesComponent,

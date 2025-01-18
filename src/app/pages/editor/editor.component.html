@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-lg-12">
                     <div style="width:fit-content;margin:auto">
-                        <button mat-flat-button color="primary" class="m-r-8">
+                        <button (click)="showPanel('send')" mat-flat-button color="primary" class="m-r-8">
                             <i class="fas fa-paper-plane"></i> Send
                         </button>
                     </div>
@@ -41,7 +41,7 @@
                     </div>
 
                     <div class="row" id="media">
-                        <p class="text-center text-light" *ngIf="userMedia">Nothing too see?? start uploading then🖐</p>
+                        <p class="text-center text-light" *ngIf="userMedia == null">Nothing to see? start uploading then🖐</p>
                     </div>
 
                     <div style="width:fit-content;margin:auto">
@@ -86,6 +86,24 @@
                             </mat-form-field>
                         </div>
                     </div>
+
+                    <div style="width:fit-content;margin:auto">
+                        <button (click)="closePanel()" mat-flat-button color="primary" class="m-r-8">
+                            <i class="fas fa-angle-left"></i> Back
+                        </button>
+                    </div>
+                </div>
+
+                <div  class="panel send text-light">
+                    <h1 class="text-light">Send</h1>
+                    <form [formGroup]="emailForm" (ngSubmit)="sendEmail()">
+                        <mat-form-field class="w-100" appearance="fill">
+                            <mat-label>Email</mat-label>
+                            <input matInput formControlName="email" required>
+                        </mat-form-field>
+                        <button type="submit" mat-flat-button color="primary">Send</button>
+                    </form>
+                   
 
                     <div style="width:fit-content;margin:auto">
                         <button (click)="closePanel()" mat-flat-button color="primary" class="m-r-8">
